@@ -175,7 +175,7 @@ export default function MyOrdersPage() {
       {/* Overlayed My Orders text on background */}
       <div className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2 z-10 select-none pointer-events-none w-full flex justify-center">
         <span
-          className="custom-orders-heading text-[8vw] sm:text-5xl md:text-6xl font-extrabold md:text-green-500 sm:text-red-500 lg:text-blue-500 text-[#e0b97f] drop-shadow-lg opacity-80 tracking-tight text-center px-2 pt-[8%] lg:pt-[3%] md:pt-[3%] sm:pt-[7%]"
+          className="custom-orders-heading text-[8vw] sm:text-5xl md:text-6xl font-extrabold text-[#e0b97f] drop-shadow-lg opacity-80 tracking-tight text-center px-2 pt-[8%] lg:pt-[3%] md:pt-[3%] sm:pt-[7%]"
           style={{ textShadow: "2px 2px 12px #fff, 0 2px 8px #e0b97f" }}
         >
           My Orders
