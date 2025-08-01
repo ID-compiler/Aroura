@@ -180,15 +180,15 @@ const CartPage = () => {
     removeFromCart(cartItem.id);
 
     toast("Item Successfully moved to Wishlist!", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
+     position: "top-right",
+autoClose: 2000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "light",
+transition: Bounce,
     });
   };
 
@@ -270,16 +270,16 @@ transition: Bounce,
     <>
       <ToastContainer
         position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
+autoClose={2000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+transition={Bounce}
       />
 
       <div className="min-h-screen bg-[#4c2438] py-[18%] lg:py-[5%] md:py-[8%] sm:py-[12%]">
