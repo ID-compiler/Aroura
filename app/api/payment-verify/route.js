@@ -17,9 +17,7 @@ export async function POST(req) {
       return Response.json({ error: "Invalid payment signature" }, { status: 400 });
     }
     // Debug logging
-    console.log("Received razorpay_order_id:", razorpay_order_id);
     const foundPayments = await Payment.find({});
-    console.log("All Payment documents:", foundPayments.map(p => ({ id: p._id, razorpayOrderId: p.razorpayOrderId })));
     // Update payment status in DB
     const payment = await Payment.findOneAndUpdate(
       { razorpayOrderId: razorpay_order_id },

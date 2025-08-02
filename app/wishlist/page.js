@@ -84,7 +84,7 @@ const WishlistPage = () => {
       addToCart(item.product);
     });
 
-    toast(` Added ${selectedItems.length} items to cart!`, {
+    toast.success(` Added ${selectedItems.length} items to cart!`, {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -102,7 +102,7 @@ const WishlistPage = () => {
     if (item) {
       addToCart(item.product);
       removeFromWishlist(productId);
-      toast("Item Successfully moved to cart!", {
+      toast.success("Item Successfully moved to cart!", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -112,6 +112,36 @@ const WishlistPage = () => {
         progress: undefined,
         theme: "light",
         transition: Bounce,
+        toastId: "move-to-cart",
+              onClose: () => {
+                // Multiple cleanup strategies to force toast removal
+                setTimeout(() => {
+                  // Strategy 1: Remove by test id
+                  const toastByTestId = document.querySelector('[data-testid="toast"]');
+                  if (toastByTestId) {
+                    toastByTestId.remove();
+                  }
+                  
+                  // Strategy 2: Remove by class name
+                  const toastsByClass = document.querySelectorAll('.Toastify__toast');
+                  toastsByClass.forEach(toast => {
+                    if (toast.style.opacity === '0' || toast.classList.contains('Toastify__toast--close')) {
+                      toast.remove();
+                    }
+                  });
+                  
+                  // Strategy 3: Remove all completed toasts
+                  const completedToasts = document.querySelectorAll('.Toastify__toast.Toastify__toast--success');
+                  completedToasts.forEach(toast => {
+                    if (toast.textContent.includes('cart')) {
+                      toast.remove();
+                    }
+                  });
+                  
+                  // Strategy 4: Force dismiss this specific toast
+                  toast.dismiss("move-to-cart");
+                }, 100);
+              }
       });
     }
   };
@@ -149,11 +179,10 @@ const WishlistPage = () => {
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 p-2 sm:p-3">
             <div className="flex items-start sm:items-center gap-2 sm:gap-3 w-full">
-              <div className="">
+              <div>
                 <button
                   onClick={() => router.back()}
-                  className="group relative w-12 h-12 m-0 overflow-hidden outline-none bg-transparent cursor-pointer border-0 before:content-[''] before:absolute before:rounded-full before:inset-1.5 before:border-2 before:border-white before:transition-all before:duration-300 before:ease-out hover:before:opacity-0 hover:before:scale-75 after:content-[''] after:absolute after:rounded-full after:inset-1.5 after:border-2 after:border-green-400 after:scale-110 after:opacity-0 after:transition-all after:duration-300 after:ease-out hover:after:opacity-100 hover:after:scale-100"
-                >
+                  className="group relative w-12 h-12 m-0 overflow-hidden outline-none bg-transparent cursor-pointer border-0 before:content-[''] before:absolute before:rounded-full before:inset-1.5 before:border-2 before:border-white before:transition-all before:duration-300 before:ease-out hover:before:opacity-0 hover:before:scale-75 after:content-[''] after:absolute after:rounded-full after:inset-1.5 after:border-2 after:border-green-400 after:scale-110 after:opacity-0 after:transition-all after:duration-300 after:ease-out hover:after:opacity-100 hover:after:scale-100">
                   <div className="flex absolute top-0 left-0 transition-transform duration-300 ease-out group-hover:-translate-x-8">
                     <span className="block w-5 h-5 mt-3.5 ml-3.5 fill-white">
                       <svg

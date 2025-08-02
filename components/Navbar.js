@@ -90,20 +90,7 @@ const Navbar = () => {
   };
 
   return (
-    <><ToastContainer
-position="top-right"
-autoClose={2000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick={false}
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-transition={Bounce}
-/>
-      <nav
+    <><nav
         className={`fixed left-1/2  transform -translate-x-1/2 z-50 bg-black/35 rounded-full shadow-2xl max-w-[90%] w-full flex justify-between items-center py-2 px-4 transition-all duration-300 ease-in-out ${
           isVisible
             ? "translate-y-0 opacity-100"

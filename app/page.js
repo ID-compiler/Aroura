@@ -107,11 +107,11 @@ export default function Home() {
         ))}
 
         <div className="para text-white absolute justify-center items-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center ">
-          <p className="text-2xl font-bold lg:text-4xl lg:font-extrabold md:text-3xl md:font-extrabold sm:text-3xl sm:font-extrabold mb-6 animate-textFloat1">
+          <p className="text-3xl font-bold lg:text-5xl lg:font-extrabold md:text-4xl md:font-extrabold sm:text-3xl sm:font-extrabold mb-6 animate-textFloat1">
             Why Paint on Canvas When the Screen Is Infinite?
           </p>
           <p
-            className="text-sm font-medium lg:text-2xl lg:font-bold sm:text-xl
+            className="text-lg font-medium lg:text-2xl lg:font-bold sm:text-xl
           md:font-bold md:text-2xl sm:font-bold animate-textFloat2"
           >
             Discover unique digital artwork for your space.
@@ -145,20 +145,137 @@ export default function Home() {
             section2InView ? "animate-in" : ""
           }`}
         >
-          <div className="border-8 border-white p-6 sm:p-6 text-center max-w-md w-full shadow-2xl">
-            <h1 className="text-2xl sm:text-3xl md:text-2xl font-mono font-bold leading-tight tracking-wide mb-6">
+          <div className="border-8 border-white p-6 md:p-6 lg:p-8 text-center max-w-md w-full shadow-2xl">
+            <h1 className="text-2xl sm:text-3xl md:text-2xl lg:text-3xl font-mono font-bold leading-tight tracking-wide mb-6">
               Discover the beauty of Digital Expression
             </h1>
-            <p className="text-sm sm:text-base md:text-sm text-gray-700 mb-8">
+            <p className="text-sm sm:text-base md:text-sm lg:text-lg text-gray-700 mb-8">
               Step into a curated gallery of stunning digital art created to
               inspire, captivate, and connect. From vibrant landscapes to
               surreal concepts, each piece tells a story beyond pixels.
             </p>
-            <Link href="/allProducts">
-              <button className="bg-black text-white px-6 py-3 uppercase tracking-wide text-sm hover:bg-gray-800 transition">
-                Explore
-              </button>
-            </Link>
+            <div className="flex justify-center">
+              <Link href="/allProducts">
+                <button className="flower-btn h-16 w-48 flex items-center justify-center bg-transparent border-0 cursor-pointer">
+                  <div className="flower-wrapper h-8 w-32 relative bg-transparent flex justify-center items-center">
+                    <p className="flower-text text-base z-10 text-black px-3 py-1 rounded bg-white/70 transition-all duration-500 uppercase tracking-wider font-semibold">
+                      Explore
+                    </p>
+
+                    <div className="flower flower1 absolute grid grid-cols-2 transition-all duration-700 -top-3 -left-3 rotate-6">
+                      <div className="petal one h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700"></div>
+                      <div className="petal two h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-90"></div>
+                      <div className="petal three h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 -rotate-90"></div>
+                      <div className="petal four h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-180"></div>
+                    </div>
+                    <div className="flower flower2 absolute grid grid-cols-2 transition-all duration-700 -bottom-1 left-2 rotate-[35deg]">
+                      <div className="petal one h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700"></div>
+                      <div className="petal two h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-90"></div>
+                      <div className="petal three h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 -rotate-90"></div>
+                      <div className="petal four h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-180"></div>
+                    </div>
+                    <div className="flower flower3 absolute grid grid-cols-2 transition-all duration-700 -bottom-4 left-1/2 -translate-x-1/2 rotate-0">
+                      <div className="petal one h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700"></div>
+                      <div className="petal two h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-90"></div>
+                      <div className="petal three h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 -rotate-90"></div>
+                      <div className="petal four h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-180"></div>
+                    </div>
+                    <div className="flower flower4 absolute grid grid-cols-2 transition-all duration-700 -top-3 left-1/2 -translate-x-1/2 rotate-[15deg]">
+                      <div className="petal one h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700"></div>
+                      <div className="petal two h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-90"></div>
+                      <div className="petal three h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 -rotate-90"></div>
+                      <div className="petal four h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-180"></div>
+                    </div>
+                    <div className="flower flower5 absolute grid grid-cols-2 transition-all duration-700 -top-1 -right-3 rotate-[25deg]">
+                      <div className="petal one h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700"></div>
+                      <div className="petal two h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-90"></div>
+                      <div className="petal three h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 -rotate-90"></div>
+                      <div className="petal four h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-180"></div>
+                    </div>
+                    <div className="flower flower6 absolute grid grid-cols-2 transition-all duration-700 -bottom-4 -right-4 rotate-[30deg]">
+                      <div className="petal one h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700"></div>
+                      <div className="petal two h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-90"></div>
+                      <div className="petal three h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 -rotate-90"></div>
+                      <div className="petal four h-4 w-4 rounded-custom bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-300 z-0 transition-all duration-700 rotate-180"></div>
+                    </div>
+                  </div>
+                </button>
+              </Link>
+            </div>
+
+            <style jsx>{`
+              .rounded-custom {
+                border-radius: 40% 70% / 7% 90%;
+              }
+
+              .flower-btn:hover .petal {
+                background: linear-gradient(to bottom, #f87171, #7f1d1d) !important;
+                border-color: #7f1d1d !important;
+                width: 1.5rem !important;
+                height: 1.5rem !important;
+}
+              .flower-btn:hover .flower {
+                grid-template-columns: 1.5rem 1.5rem !important;
+              }
+
+              .flower-btn:hover .flower-text {
+                background: rgba(255, 255, 255, 0.4) !important;
+              }
+
+              .flower-btn:hover .flower1 {
+                animation: 15s linear 0s normal none infinite running flower1;
+              }
+
+              @keyframes flower1 {
+                0% { transform: rotate(5deg); }
+                100% { transform: rotate(365deg); }
+              }
+
+              .flower-btn:hover .flower2 {
+                animation: 13s linear 1s normal none infinite running flower2;
+              }
+
+              @keyframes flower2 {
+                0% { transform: rotate(35deg); }
+                100% { transform: rotate(-325deg); }
+              }
+
+              .flower-btn:hover .flower3 {
+                animation: 16s linear 1s normal none infinite running flower3;
+              }
+
+              @keyframes flower3 {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+
+              .flower-btn:hover .flower4 {
+                animation: 17s linear 1s normal none infinite running flower4;
+              }
+
+              @keyframes flower4 {
+                0% { transform: rotate(15deg); }
+                100% { transform: rotate(375deg); }
+              }
+
+              .flower-btn:hover .flower5 {
+                animation: 20s linear 1s normal none infinite running flower5;
+              }
+
+              @keyframes flower5 {
+                0% { transform: rotate(25deg); }
+                100% { transform: rotate(-335deg); }
+              }
+
+              .flower-btn:hover .flower6 {
+                animation: 15s linear 1s normal none infinite running flower6;
+              }
+
+              @keyframes flower6 {
+                0% { transform: rotate(30deg); }
+                100% { transform: rotate(390deg); }
+              }
+            `}</style>
           </div>
         </div>
       </div>
@@ -443,8 +560,8 @@ export default function Home() {
               </div>
 
               {/* Newsletter / Footer Notes */}
-              <div className="space-y-2 text-gray-600 md:text-right">
-                <p>© 2025 Get me A Chai — All rights reserved!</p>
+              <div className="space-y-2 text-gray-400 md:text-right">
+                <p>© 2025 Aroura — All rights reserved!</p>
                 <p>
                   Made with <span className="text-red-500">❤️</span> by ID
                 </p>

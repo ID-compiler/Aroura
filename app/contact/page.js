@@ -301,7 +301,7 @@ transition={Bounce}
             {/* LinkedIn */}
             <div className="relative group">
               <a 
-                href="https://linkedin.com/in/your-profile" 
+                href="https://www.linkedin.com/in/ichha-dwivedi-55b246288" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-[#0077B5] text-white lg:px-4 lg:py-2 md:p-3 sm:p-3 p-3 rounded-lg hover:bg-[#005885] transition-colors shadow-lg"
@@ -320,7 +320,7 @@ transition={Bounce}
             {/* Instagram */}
             <div className="relative group">
               <a 
-                href="https://instagram.com/your-profile" 
+                href="https://www.instagram.com/ig.sketcher" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] text-white lg:px-4 lg:py-2 md:p-3 sm:p-3 p-3 rounded-lg hover:opacity-90 transition-opacity shadow-lg"

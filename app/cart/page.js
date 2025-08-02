@@ -179,16 +179,51 @@ const CartPage = () => {
     // Remove from cart
     removeFromCart(cartItem.id);
 
-    toast("Item Successfully moved to Wishlist!", {
-     position: "top-right",
-autoClose: 2000,
-hideProgressBar: false,
-closeOnClick: true,
-pauseOnHover: true,
-draggable: true,
-progress: undefined,
-theme: "light",
-transition: Bounce,
+    toast.success("Item Successfully moved to Wishlist!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      toastId: "move-to-wishlist",
+      onClose: () => {
+        // Multiple cleanup strategies to force toast removal
+        setTimeout(() => {
+          // Strategy 1: Remove by test id
+          const toastByTestId = document.querySelector('[data-testid="toast"]');
+          if (toastByTestId) {
+            toastByTestId.remove();
+          }
+
+          // Strategy 2: Remove by class name
+          const toastsByClass = document.querySelectorAll(".Toastify__toast");
+          toastsByClass.forEach((toast) => {
+            if (
+              toast.style.opacity === "0" ||
+              toast.classList.contains("Toastify__toast--close")
+            ) {
+              toast.remove();
+            }
+          });
+
+          // Strategy 3: Remove all completed toasts
+          const completedToasts = document.querySelectorAll(
+            ".Toastify__toast.Toastify__toast--success"
+          );
+          completedToasts.forEach((toast) => {
+            if (toast.textContent.includes("Wishlist")) {
+              toast.remove();
+            }
+          });
+
+          // Strategy 4: Force dismiss this specific toast
+          toast.dismiss("move-to-wishlist");
+        }, 100);
+      },
     });
   };
 
@@ -201,25 +236,25 @@ transition: Bounce,
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
+        closeOnClick: true,
+        pauseOnHover: false,
         draggable: true,
         progress: undefined,
         theme: "light",
         transition: Bounce,
       });
     } else {
-toast.error('Invalid promo code', {
-position: "top-right",
-autoClose: 2000,
-hideProgressBar: false,
-closeOnClick: false,
-pauseOnHover: true,
-draggable: true,
-progress: undefined,
-theme: "light",
-transition: Bounce,
-});
+      toast.error("Invalid promo code", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   };
 
@@ -231,35 +266,49 @@ transition: Bounce,
   // Handle checkout
   const handleCheckout = () => {
     if (!session) {
-      toast.error('Please sign in to proceed with checkout', {
-position: "top-right",
-autoClose: 2000,
-hideProgressBar: false,
-closeOnClick: false,
-pauseOnHover: true,
-draggable: true,
-progress: undefined,
-theme: "light",
-transition: Bounce,
-});
+      toast.error("Please sign in to proceed with checkout", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       return;
     }
 
     const orderSummary = {
       items: cartItems.map((item) => ({
         product: item.product.name,
+        productId: item.product.id,
         quantity: item.quantity,
         deliveryOption: item.deliveryOption,
         selectedSize: item.selectedSize,
         price: calculateItemPrice(item),
+        unitPrice: calculateItemPrice(item) / item.quantity,
         image: item.product.image,
+        category: item.product.category,
       })),
       subtotal,
       shipping: shippingCost,
       discount,
       total,
-      appliedPromo: appliedPromo?.description || null,
+      appliedPromo: appliedPromo
+        ? {
+            code: promoCode.toUpperCase(),
+            description: appliedPromo.description,
+            discount: appliedPromo.discount,
+            type: appliedPromo.type,
+          }
+        : null,
+      timestamp: Date.now(),
     };
+
+    // Store order data in sessionStorage as backup
+    sessionStorage.setItem("checkoutOrder", JSON.stringify(orderSummary));
 
     // Navigate to checkout page with order data
     const orderData = encodeURIComponent(JSON.stringify(orderSummary));
@@ -270,16 +319,16 @@ transition: Bounce,
     <>
       <ToastContainer
         position="top-right"
-autoClose={2000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-transition={Bounce}
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
       />
 
       <div className="min-h-screen bg-[#4c2438] py-[18%] lg:py-[5%] md:py-[8%] sm:py-[12%]">
@@ -606,7 +655,7 @@ transition={Bounce}
                         <button
                           onClick={handleApplyPromo}
                           disabled={!promoCode.trim()}
-                          className="px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
+                          className="px-3 py-1.5 sm:px-4 sm:py-2 text-white rounded-lg  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm"
                         >
                           Apply
                         </button>

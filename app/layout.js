@@ -8,6 +8,8 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 import RouteLoadingBar from "@/components/RouteLoadingBar";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +49,21 @@ export default function RootLayout({ children }) {
                 <RouteLoadingBar color="#FF156D" />
                 {children}
               </main>
+              {/* Global ToastContainer - only one needed for the entire app */}
+              <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+                limit={3}
+              />
             </WishlistProvider>
           </CartProvider>
         </ClientSessionProvider>

@@ -29,8 +29,8 @@ const Footer = () => {
         </div>
 
         {/* Newsletter / Footer Notes */}
-        <div className="space-y-2 text-center md:text-right text-black/90">
-          <p>© 2025 Get me A Chai — All rights reserved!</p>
+        <div className="space-y-2 text-center md:text-right text-gray-400">
+          <p>© 2025 Aroura — All rights reserved!</p>
           <p>
             Made with <span className="text-red-500">❤️</span> by ID
           </p>

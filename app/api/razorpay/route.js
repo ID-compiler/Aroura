@@ -30,11 +30,10 @@ export async function POST(req) {
         currency: "INR",
         receipt: `rcpt_${Date.now()}`,
     });
-    // Debug log to verify Razorpay order response
-    console.log("Razorpay order response:", razorpayOrder);
+    
     // Save order to DB
     const razorpayOrderId = razorpayOrder.id;
-    console.log("Assigning razorpayOrderId:", razorpayOrderId);
+    
     // Always save email in shippingInfo
     const shippingInfo = {
         fullName: user.fullName,
@@ -42,7 +41,6 @@ export async function POST(req) {
         phone: user.phone,
         email, // Always use the resolved email variable
     };
-    console.log("Shipping info to be saved:", shippingInfo);
     const payment = await Payment.create({
         orderItems: order.items,
         total: order.total,

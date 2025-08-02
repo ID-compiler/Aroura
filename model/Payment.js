@@ -8,7 +8,7 @@ const paymentSchema = new Schema({
   userNum: { type: Number },
   userAdd: { type: String },
   amount: { type: Number },
-  status: { type: String, enum: ["pending", "completed", "failed"], default: "pending" },
+  status: { type: String, enum: ["pending", "completed", "failed", "cancelled"], default: "pending" },
   done: {type: Boolean, default: false },
   // New order fields
   orderItems: [{
@@ -28,6 +28,7 @@ const paymentSchema = new Schema({
   },
   razorpayOrderId: { type: String },
   createdAt: { type: Date, default: Date.now },
+  cancelledAt: { type: Date },
 });
 
 

@@ -900,7 +900,7 @@ transition: Bounce,
               )}
 
               {/* Products Carousel */}
-              <div className="overflow-x-auto">
+              <div className="overflow-hidden">
                 <div
                   className="flex transition-transform duration-500 ease-in-out w-full sm:w-[90%] md:w-[85%] lg:w-[80%] mx-auto"
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}

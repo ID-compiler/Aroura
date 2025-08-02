@@ -2,9 +2,11 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { ToastContainer, toast, Bounce } from "react-toastify";
+import { useCart } from "@/contexts/CartContext";
 
 const CheckoutContent = () => {
   const searchParams = useSearchParams();
+  const { clearCart } = useCart();
   const [order, setOrder] = useState(null);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,8 +35,32 @@ const CheckoutContent = () => {
     const orderParam = searchParams.get("order");
     if (orderParam) {
       try {
-        setOrder(JSON.parse(decodeURIComponent(orderParam)));
-      } catch {
+        const parsedOrder = JSON.parse(decodeURIComponent(orderParam));
+        setOrder(parsedOrder);
+      } catch (error) {
+        console.error("Failed to parse order from URL:", error);
+        // Try to get from sessionStorage as fallback
+        try {
+          const storedOrder = sessionStorage.getItem('checkoutOrder');
+          if (storedOrder) {
+            const parsedStoredOrder = JSON.parse(storedOrder);
+            setOrder(parsedStoredOrder);
+          }
+        } catch (storageError) {
+          console.error("Failed to parse order from sessionStorage:", storageError);
+          setOrder(null);
+        }
+      }
+    } else {
+      // If no URL parameter, try sessionStorage
+      try {
+        const storedOrder = sessionStorage.getItem('checkoutOrder');
+        if (storedOrder) {
+          const parsedStoredOrder = JSON.parse(storedOrder);
+          setOrder(parsedStoredOrder);
+        }
+      } catch (storageError) {
+        console.error("Failed to parse order from sessionStorage:", storageError);
         setOrder(null);
       }
     }
@@ -100,20 +126,23 @@ const CheckoutContent = () => {
             ]);
 
             if (verifyRes.ok && verifyData.success) {
-              toast.success("Thank You for the Purchase!", {
+              // Show success toast with reduced autoClose time
+              toast.success("Order Confirmed! Redirecting...", {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 1000, // Reduced from 2000ms
                 hideProgressBar: false,
                 closeOnClick: false,
-                pauseOnHover: true,
+                pauseOnHover: false, // Don't pause on hover for faster redirect
                 draggable: true,
                 progress: undefined,
                 theme: "light",
                 transition: Bounce,
+                toastId: "order-success",
               });
 
+              // Send email asynchronously (don't block redirect)
               try {
-                await fetch("/api/auth/send-email", {
+                fetch("/api/auth/send-email", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
@@ -124,10 +153,17 @@ const CheckoutContent = () => {
                     message: `Dear ${fullName},\n\nThank you for your order! Your payment was successful and your order is confirmed.\n\nOrder Details:\n${verifyData?.payment?.orderItems
                       ?.map((item) => `- ${item.product} (x${item.quantity})`)
                       .join("\n")}\n\nBest regards,\nAroura Team`,
+                    isOrderConfirmation: true,
                   }),
+                }).then(response => response.json()).then(result => {
+                  if (!result.success) {
+                    console.error("Failed to send email:", result.message);
+                  }
+                }).catch(err => {
+                  console.error("Failed to send thank you email:", err);
                 });
               } catch (err) {
-                console.error("Failed to send thank you email", err);
+                console.error("Failed to send thank you email:", err);
               }
 
               let guestCart = JSON.parse(
@@ -158,7 +194,13 @@ const CheckoutContent = () => {
                 );
               }
 
-              window.location.href = "/my-orders";
+              // Clear the cart context state
+              clearCart();
+
+              // Redirect faster - don't wait for everything to complete
+              setTimeout(() => {
+                window.location.href = "/order-confirmation";
+              }, 800); // Quick redirect after 800ms
             } else {
               toast.error(verifyData.error || "Payment verification failed", {
                 position: "top-right",
@@ -214,13 +256,34 @@ const CheckoutContent = () => {
 
   if (!order) {
     return (
-      <div className="max-w-2xl mx-auto p-6 mt-10 bg-white rounded-xl shadow-md text-center">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-          Order Summary
-        </h2>
-        <p className="text-red-600 text-sm">
-          No order found. Please proceed from your cart.
-        </p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg text-center">
+          <div className="mb-4">
+            <svg className="w-16 h-16 mx-auto text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+            Order Not Found
+          </h2>
+          <p className="text-gray-600 mb-6">
+            No order information found. Please proceed from your cart to checkout.
+          </p>
+          <div className="space-y-3">
+            <button
+              onClick={() => window.location.href = '/cart'}
+              className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+            >
+              Go to Cart
+            </button>
+            <button
+              onClick={() => window.location.href = '/allProducts'}
+              className="w-full px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -239,19 +302,6 @@ const CheckoutContent = () => {
         justifyContent: "center",
       }}
     >
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
       <div className="lg:w-2xl w-[70vw] md:w-xl sm:w-lg mx-auto px-3 sm:px-3 md:px-4 lg:px-4 py-6 mt-30 bg-white bg-opacity-90 rounded-xl shadow-md">
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
           Order Summary

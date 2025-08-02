@@ -7,7 +7,7 @@ import Link from "next/link";
 import products from "@/data/products";
 
 const AllProducts = () => {
-  const router = require('next/navigation').useRouter();
+  const router = require("next/navigation").useRouter();
   // Restore currentPage from sessionStorage only on browser back, then clear it
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -251,7 +251,7 @@ const AllProducts = () => {
               setPriceRange([minPrice, maxPrice]);
               setCurrentPage(1);
             }}
-            className="px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20"
+            className="px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300 "
           >
             All Products ({products.length})
           </button>
@@ -263,9 +263,9 @@ const AllProducts = () => {
             onMouseLeave={handleCategoryDropdownLeave}
           >
             <button
-              className={`px-6 py-3 backdrop-blur-sm rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center gap-2 ${
+              className={`px-6 py-3 backdrop-blur-sm rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300 flex items-center gap-2 ${
                 selectedCategories.length > 0
-                  ? "bg-blue-600/80 border-blue-400/50"
+                  ? "bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700 hover:bg-gradient-to-br"
                   : "bg-white/10"
               }`}
             >
@@ -292,7 +292,7 @@ const AllProducts = () => {
             </button>
 
             {isCategoryDropdownOpen && (
-              <div className="absolute top-full mt-2 left-0 bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-4 min-w-[200px] z-50 border border-white/20">
+              <div className="absolute top-full mt-2 left-0 bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-4 min-w-[200px] z-50 ">
                 <div className="space-y-3">
                   {/* Digital Artworks Checkbox */}
                   <div className="flex items-center space-x-3">
@@ -357,9 +357,9 @@ const AllProducts = () => {
             onMouseLeave={handleSortDropdownLeave}
           >
             <button
-              className={`px-6 py-3 backdrop-blur-sm rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center gap-2 ${
+              className={`px-6 py-3 backdrop-blur-sm rounded-full text-white font-semibold  transition-all duration-300 flex items-center gap-2 ${
                 sortOrder !== ""
-                  ? "bg-green-600/80 border-green-400/50"
+                  ? "bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br"
                   : "bg-white/10"
               }`}
             >
@@ -553,10 +553,17 @@ const AllProducts = () => {
         {/* Products Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-12 px-[8%] pt-0 pb-0 mt-20 mb-12">
           {currentProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 hover:shadow-2xl group"
-            >
+            <Link href={`/product/${product.id}`} key={product.id}>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 hover:shadow-2xl group"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    sessionStorage.setItem(
+                      "allProducts_currentPage",
+                      currentPage
+                    );
+                  }
+                }}
+                >
               <div
                 className={`relative aspect-square overflow-hidden ${
                   product.category === "digital" ? "bg-gray-100" : "bg-white"
@@ -605,21 +612,23 @@ const AllProducts = () => {
                   <span className="text-sm sm:text-sm md:text-lg lg:text-lg font-bold text-green-400">
                     {product.price}
                   </span>
-                  <Link href={`/product/${product.id}`}>
-                  <button
-                    className="col4-sub bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 lg:py-2 md:py-2 sm:py-1 rounded text-xs font-semibold transition-colors"
-                    onClick={() => {
-                      if (typeof window !== "undefined") {
-                        sessionStorage.setItem("allProducts_currentPage", currentPage);
-                      }
-                    }}
-                  >
-                    View
-                  </button>
-                  </Link>
+                    <button
+                      className="col4-sub bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700 hover:bg-gradient-to-br text-white px-3 py-1 lg:py-2 md:py-2 sm:py-1 rounded text-xs font-semibold transition-colors"
+                      onClick={() => {
+                        if (typeof window !== "undefined") {
+                          sessionStorage.setItem(
+                            "allProducts_currentPage",
+                            currentPage
+                          );
+                        }
+                      }}
+                    >
+                      View
+                    </button>
                 </div>
               </div>
             </div>
+            </Link>
           ))}
         </div>
 

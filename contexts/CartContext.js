@@ -26,11 +26,9 @@ export const CartProvider = ({ children }) => {
 
       if (session?.user?.email) {
         try {
-          console.log('Loading cart from database for user:', session.user.email);
           const response = await fetch('/api/cart');
           if (response.ok) {
             const data = await response.json();
-            console.log('Cart loaded from database:', data.cartItems);
             
             // If database cart is empty, check localStorage for existing data
             if ((!data.cartItems || data.cartItems.length === 0) && typeof window !== "undefined") {
@@ -39,7 +37,6 @@ export const CartProvider = ({ children }) => {
                 try {
                   const parsedLocalCart = JSON.parse(localCart);
                   if (parsedLocalCart && parsedLocalCart.length > 0) {
-                    console.log('Migrating cart from localStorage to database:', parsedLocalCart);
                     setCartItems(parsedLocalCart);
                     // Clear the local storage after migration
                     localStorage.removeItem("guest_cart");
@@ -65,7 +62,6 @@ export const CartProvider = ({ children }) => {
           loadFromLocalStorage();
         }
       } else {
-        console.log('Loading cart from localStorage (guest user)');
         // Load from localStorage for guests
         loadFromLocalStorage();
       }
@@ -78,7 +74,6 @@ export const CartProvider = ({ children }) => {
         if (savedCart) {
           try {
             const parsedCart = JSON.parse(savedCart);
-            console.log('Cart loaded from localStorage:', parsedCart);
             setCartItems(parsedCart);
           } catch (error) {
             console.error("Error loading cart from localStorage:", error);
@@ -104,7 +99,6 @@ export const CartProvider = ({ children }) => {
         
         // Save to database for authenticated users
         try {
-          console.log('Saving cart to database:', cartItems);
           const response = await fetch('/api/cart', {
             method: 'POST',
             headers: {
@@ -112,9 +106,7 @@ export const CartProvider = ({ children }) => {
             },
             body: JSON.stringify({ cartItems }),
           });
-          if (response.ok) {
-            console.log('Cart saved to database successfully');
-          } else {
+          if (!response.ok) {
             console.error('Failed to save cart to database:', response.status);
           }
         } catch (error) {
@@ -123,7 +115,6 @@ export const CartProvider = ({ children }) => {
       } else {
         // Save to localStorage for guests
         if (typeof window !== "undefined") {
-          console.log('Saving cart to localStorage:', cartItems);
           localStorage.setItem("guest_cart", JSON.stringify(cartItems));
         }
       }
